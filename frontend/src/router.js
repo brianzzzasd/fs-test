@@ -9,7 +9,10 @@ export default new VueRouter({
 	routes: [
 		{
 			path: '/',
-			component: HelloWorld
+			component: HelloWorld,
+			meta: {
+				requiresAuth: true,
+			}
 		},
 		{
 			path: '/login',

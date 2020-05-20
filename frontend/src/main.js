@@ -8,6 +8,19 @@ import './plugins';
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+	const currentUser = localStorage.getItem('user')
+
+	if (requiresAuth && !currentUser) {
+		next('/login');
+	} else if (to.path == '/login' && currentUser) {
+		next('/');
+	} else {
+		next();
+	}
+});
+
 new Vue({
   router,
   store,
