@@ -78,9 +78,9 @@
     },
 
     methods: {
-      login() {
-       const { data } = axios.get('test')
-       console.log(data);
+      async login() {
+       const data = await axios.get('test')
+       console.log(data)
       }
     }
   }
