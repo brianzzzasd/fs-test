@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', 'WishlistController@index');
-
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+});
+
+Route::group(['prefix' => 'wishlist', 'middleware' => 'jwt.auth'], function () {
+	Route::get('/', 'WishlistController@index');
+	Route::get('/{id}', 'WishlistController@show');
+	Route::post('/', 'WishlistController@store');
 });

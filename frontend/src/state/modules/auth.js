@@ -16,8 +16,9 @@ export const mutations = {
   loginUser(state, currentuser) {
     state.currentuser = currentuser;
     state.isLoggedIn = true;
-    localStorage.setItem('user', JSON.stringify(state.currentUser))
+    localStorage.setItem('user', JSON.stringify(state.currentuser))
   },
+
   logout(state) {
     localStorage.removeItem('user');
     state.isLoggedIn = false;

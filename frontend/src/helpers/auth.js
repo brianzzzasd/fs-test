@@ -21,3 +21,7 @@ export function getLocalUser() {
 
   return JSON.parse(user);
 }
+
+export async function logout() {
+  await axios.post('/auth/logout')
+}

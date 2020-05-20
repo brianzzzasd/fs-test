@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Wishlist;
+use App\Models\WishlistItems;
+
 use Illuminate\Http\Request;
 
 class WishlistController extends Controller
@@ -13,9 +16,7 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'message' => 'test',
-        ]);
+        return Wishlist::paginate($request->query ?? 10);
     }
 
     /**
@@ -36,7 +37,22 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $wishlist = Wishlist::create([
+            'name' => $request->wishlist_name,
+            'organizer_id' => auth('api')->id(),
+            'shareable_link' => 'testlink'
+        ]);
+
+        $wishListItems = json_decode($request->wishlist_items);
+
+        $wishlist->wishlistItems()->createMany([
+            $wishListItems
+        ]);
+
+
+        return response()->json([
+            'response' => $wishListItems,
+        ]);
     }
 
     /**
