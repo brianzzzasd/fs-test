@@ -25,4 +25,5 @@ Route::group(['prefix' => 'wishlist', 'middleware' => 'jwt.auth'], function () {
 	Route::get('/', 'WishlistController@index');
 	Route::get('/{id}', 'WishlistController@show');
 	Route::post('/', 'WishlistController@store');
+	Route::post('/delete/{wishlist}', 'WishlistController@delete');
 });

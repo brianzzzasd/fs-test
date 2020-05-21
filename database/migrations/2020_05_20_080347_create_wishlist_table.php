@@ -19,6 +19,8 @@ class CreateWishlistTable extends Migration
             $table->integer('organizer_id');
             $table->string('shareable_link');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

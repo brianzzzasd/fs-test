@@ -5,9 +5,12 @@
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
           <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline">
-              <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Wishlist</a>
-              <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Projects</a>
+            <div class="ml-3 flex items-baseline">
+              <router-link
+                to="/"
+              >
+                <a href="#" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Wishlists</a>
+              </router-link>
             </div>
           </div>
         </div>
@@ -63,8 +66,7 @@
     <div class="hidden md:hidden"
     >
       <div class="px-2 pt-2 pb-3 sm:px-3">
-        <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Wishlist</a>
-        <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Projects</a>
+        <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Wishlists</a>
       </div>
       <div class="pt-4 pb-3 border-t border-gray-700">
         <div class="mt-3 px-2">

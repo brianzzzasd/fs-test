@@ -16,9 +16,9 @@ export const mutations = {
 
 export const actions = {
   async fetch({ commit }, params) {
-    await axios.get('wishlist', params)
+    const { data: { data } } = await axios.get('wishlist', params);
 
-    commit();
+    commit('setWishlists', data);
   },
 
   async add({ commit }, params) {
@@ -26,7 +26,19 @@ export const actions = {
       await axios.post('wishlist', params)
       commit();
     } catch (err) {
-      return false
+      return false;
+    }
+
+    return true;
+  },
+
+  async delete({ commit }, id) {
+    try {
+      await axios.post(`wishlist/delete/${id}`)
+      this.fetch()
+      commit();
+    } catch (err) {
+      return false;
     }
 
     return true;
