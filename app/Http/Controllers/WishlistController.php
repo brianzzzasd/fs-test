@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Wishlist;
 use App\Models\WishlistItems;
-
+use DB;
 use Illuminate\Http\Request;
 
 class WishlistController extends Controller
@@ -37,22 +37,32 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        $wishlist = Wishlist::create([
-            'name' => $request->wishlist_name,
-            'organizer_id' => auth('api')->id(),
-            'shareable_link' => 'testlink'
-        ]);
+        $wishlistData = json_decode($request->wishlist);
 
-        $wishListItems = json_decode($request->wishlist_items);
+        try {
+            DB::beginTransaction();
 
-        $wishlist->wishlistItems()->createMany([
-            $wishListItems
-        ]);
+            $wishlist = Wishlist::create([
+                'name' => $wishlistData->wishlist_name,
+                'organizer_id' => auth('api')->id(),
+                'shareable_link' => 'testlink'
+            ]); 
 
+            $wishListItems = json_decode($wishlistData->wishlist_items, true);
 
-        return response()->json([
-            'response' => $wishListItems,
-        ]);
+            $this->createWishlistItems($wishListItems, $wishlist->id, $request->all());
+
+            DB::commit();
+            return response()->json([
+                'message' => 'Wishlist Created Successfully',
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 422);
+        }
     }
 
     /**
@@ -98,5 +108,25 @@ class WishlistController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function createWishlistItems($items, $id, $files)
+    {
+        collect($items)->each(function ($item, $index) use($id, $files) {
+            $img_url = '';
+            $file_index = 'image-' . $index;
+
+            if ($file = $files[$file_index]) {
+                $img_url = $file->store('uploads');
+            }
+
+            WishlistItems::create(array_filter([
+                'name' => $item['name'],
+                'wishlist_id' => $id,
+                'description' => $item['description'],
+                'image_url' => $img_url,
+                'price' => $item['price']
+            ]));
+        });
     }
 }

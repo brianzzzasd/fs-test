@@ -1,5 +1,7 @@
 import axios from 'axios';
-import store from '../state/store'
+import store from '../state/store';
+import router from '../router';
+
 import { getSavedState } from '../helpers/localStorage'
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
@@ -18,7 +20,7 @@ axios.interceptors.response.use((response) => response, (error) => {
     if (error.response.status == 401) {
         store.dispatch('auth/handleDeauth')
 
-        this.$router.push('/')
+        router.push({ path: '/login' })
     }
 });
 

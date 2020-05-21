@@ -1,29 +1,34 @@
 import axios from 'axios';
 
 export const state = {
-  wishlist: null,
+  wishlists: null,
 };
 
 export const getters = {
-  wishlist: (state) => state.wishlist,
+  wishlists: (state) => state.wishlists,
 };
 
 export const mutations = {
-  setWishlist(state, wishlist) {
-    state.wishlist = wishlist;
+  setWishlists(state, wishlists) {
+    state.wishlists = wishlists;
   }
 };
 
 export const actions = {
-  async fetch({ commit }) {
-    let data = await axios.get('wishlist')
+  async fetch({ commit }, params) {
+    await axios.get('wishlist', params)
 
-    commit('setWishlist', { data })
+    commit();
   },
 
-  async add({ }, params) {
-    let data = axios.post('wishlist', params);
+  async add({ commit }, params) {
+    try {
+      await axios.post('wishlist', params)
+      commit();
+    } catch (err) {
+      return false
+    }
 
-    console.log(data);
+    return true;
   }
 };
