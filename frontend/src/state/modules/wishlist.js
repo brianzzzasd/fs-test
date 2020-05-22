@@ -34,7 +34,7 @@ export const mutations = {
 
 export const actions = {
   async fetchAll({ commit }, params) {
-    const { data: { data } } = await axios.get('wishlist', params);
+    const { data: { data } } = await axios.get('wishlist', { params });
 
     commit('SET_WISHLISTS', data);
   },

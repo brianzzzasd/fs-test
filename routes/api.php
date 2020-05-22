@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::post('/get-paginate-data', 'WishlistController@getPaginationData');
 Route::post('register', 'UserController@register');
 
 Route::group(['prefix' => 'auth'], function () {

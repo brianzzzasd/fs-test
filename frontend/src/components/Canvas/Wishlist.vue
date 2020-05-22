@@ -85,12 +85,19 @@
           </tbody>
         </table>
       </div>
+      <Pagination />
     </div>
   </div>
 </template>
 <script>
   import { mapActions, mapGetters } from 'vuex'
+  import Pagination from '../Pagination';
+
   export default {
+    components: {
+      Pagination,
+    },
+
     data () {
       return {
         currentWishlist: '',

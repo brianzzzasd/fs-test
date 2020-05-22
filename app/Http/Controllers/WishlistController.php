@@ -19,9 +19,12 @@ class WishlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $wishlists = Wishlist::all()->take(10);
+        $page = request()->page ?? 1;
+        $skip = ($page - 1) * 10;
+
+        $wishlists = Wishlist::all()->skip($skip)->take(10);
 
         return new WishlistsResource($wishlists);
     }
@@ -187,8 +190,27 @@ class WishlistController extends Controller
         ]));
     }
 
+    /**
+     * Generate Shareable Link
+     * 
+     * @param  int $id 
+     * @return string
+     */
     public function generateShareableLink($id)
     {
         return env('FE_URL', 'http://127.0.0.1:8082') . '/wishlist/view/' . base64_encode($id);
+    }
+
+    public function getPaginationData()
+    {
+        // $data = [
+        //     'total' => Wishlist::count(),
+        // ];
+
+        return response()->json([
+            'data' => [
+                'total' => Wishlist::count()
+            ],
+        ], 200);
     }
 }
