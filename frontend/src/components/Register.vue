@@ -29,7 +29,7 @@
                 </label>
                 <div class="mt-1">
                   <input id="email" type="text" v-model="form.email" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
-                  <span class="text-red-600 text-sm" v-if="errors.email">Email is required</span>
+                  <span class="text-red-600 text-sm" v-if="errors.email">Email is required and must be valid</span>
                 </div>
               </div>
 
@@ -104,11 +104,20 @@
 
           this.errors[key] = false
 
+          if (key == 'email' && !this.validateEmail(value)) {
+            this.errors[key] = true
+          }
+
           if (!value) {
             this.errors[key] = true
           }
         })
-      }
+      },
+
+       validateEmail(email) {
+          var re = /\S+@\S+\.\S+/;
+          return re.test(email);
+      },
     }
   }
 </script>

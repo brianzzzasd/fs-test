@@ -9,20 +9,26 @@ import './plugins';
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
-	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-	const currentUser = localStorage.getItem('user')
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    const currentUser = localStorage.getItem('user')
 
-	if (requiresAuth && !currentUser) {
-		next('/login');
-	} else if ((to.path == '/login' || to.path == '/register') && currentUser) {
-		next('/');
-	} else {
-		next();
-	}
+    if (requiresAuth && !currentUser && to.path != '/login' ) {		
+        if (router.currentRoute.name !== 'login') {
+            localStorage.setItem('redirectPath', location.pathname);
+
+            router.push({ name: 'login', query: { redirectFrom: location.pathname } });
+        } else {
+            next('/login');
+        }
+    } else if ((to.path == '/login' || to.path == '/register') && currentUser) {
+        next('/');
+    } else {
+        next();
+    }
 });
 
 new Vue({
-  router,
-  store,
-  render: (h) => h(App),
+    router,
+    store,
+    render: (h) => h(App),
 }).$mount('#app');

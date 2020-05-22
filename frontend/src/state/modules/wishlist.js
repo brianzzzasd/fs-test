@@ -30,6 +30,11 @@ export const mutations = {
   SET_SHAREABLE_LINK(state, shareable_link) {
     state.shareable_link = shareable_link;
   },
+
+  REMOVE_WISHLIST(state, id) {
+    const i = state.wishlists.map(item => item.id).indexOf(id);
+    state.wishlists.splice(i, 1);
+  },
 };
 
 export const actions = {
@@ -65,7 +70,8 @@ export const actions = {
 
   async delete({ commit }, id) {
     try {
-      await axios.post(`wishlist/delete/${id}`)
+      await axios.post(`wishlist/delete/${id}`);
+      commit('REMOVE_WISHLIST', id);
     } catch (err) {
       return false;
     }
@@ -76,7 +82,7 @@ export const actions = {
 
   async buy({ commit }, params) {
     try {
-      const { data: { data }} = await axios.post('wishlist/buy', params)
+      const { data: { data }} = await axios.post('wishlist/buy', params);
       
       commit('SET_WISHLIST', data[0]);
     } catch (err) {

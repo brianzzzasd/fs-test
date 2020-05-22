@@ -1,4 +1,5 @@
 import { getLocalUser } from '../../helpers/auth'
+import router from '../../router'
 
 const user = getLocalUser();
 
@@ -17,6 +18,10 @@ export const mutations = {
     state.currentuser = currentuser;
     state.isLoggedIn = true;
     localStorage.setItem('user', JSON.stringify(state.currentuser))
+
+    router.push(router.currentRoute.query.redirectFrom || { name: 'home' })
+
+    localStorage.removeItem('redirectPath');
   },
 
   logout(state) {

@@ -13,6 +13,7 @@ Vue.use(VueRouter);
 export default new VueRouter({
 	routes: [
 		{
+			name: 'home',
 			path: '/',
 			component: Home,
 			meta: {
@@ -20,10 +21,12 @@ export default new VueRouter({
 			},
 		},
 		{
+			name: 'login',
 			path: '/login',
 			component: Login
 		},
 		{
+			name: 'Register',
 			path: '/register',
 			component: Register
 		},

@@ -70,6 +70,13 @@
       }
     },
 
+    mounted() {
+      let redirectPath = localStorage.getItem('redirectPath')
+
+      if(redirectPath && this.$router.currentRoute.fullPath == '/login') {
+        this.$router.push({ name: 'login', query: { redirectFrom: redirectPath }})
+      }
+    },
     methods: {
       ...mapActions({
         loginUser: 'auth/handleAuth'
@@ -79,8 +86,6 @@
         login(this.form)
           .then((res) => {
             this.loginUser(res)
-
-            this.$router.push({ path: '/'})
           })
       }
     }

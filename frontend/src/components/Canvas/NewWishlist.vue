@@ -104,6 +104,7 @@ export default {
   
   data () {
     return {
+      user:'',
       formData: '',
       currentInputting: 0,
       submittable: true,

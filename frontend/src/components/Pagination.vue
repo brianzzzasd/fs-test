@@ -14,7 +14,7 @@
           Showing
           <span class="font-medium">{{ (currentPage * 10) - 9 }}</span>
           to
-          <span class="font-medium">{{ currentPage * 10}}</span>
+          <span class="font-medium">{{ (currentPage * 10) - excess }}</span>
           of
           <span class="font-medium">{{ total }}</span>
           results
@@ -50,7 +50,7 @@
   import axios from 'axios';
   import floor from 'lodash/floor';
   import ceil from 'lodash/ceil';
-  import { mapActions } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
 
   export default {
     data () {
@@ -111,8 +111,16 @@
     },
 
     computed: {
+      ...mapGetters({
+        wishlists: 'wishlist/wishlists'
+      }),
+
       pageCount () {
         return ceil(this.total / 10);
+      },
+
+      excess() {
+        return 10 -(this.wishlists ? this.wishlists.length : 0)
       }
     },
 

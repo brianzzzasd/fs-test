@@ -5,7 +5,7 @@
       <header class="bg-white shadow">
       </header>
       <main>
-        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" v-if="user.role == 2">
           <span class="inline-flex rounded-md shadow-sm mb-5">
             <router-link
               to="/wishlist/new"
@@ -24,11 +24,22 @@
 <script>
   import Header from './Header';
   import Wishlist from './Canvas/Wishlist';
+  import { getSavedState } from '../helpers/localStorage';
 
   export default {
     components: { 
       Header,
       Wishlist
+    },
+
+    data () {
+      return {
+        user: '',
+      }
+    },
+    
+    mounted () {
+      this.user = getSavedState('user')
     }
   }
 </script>

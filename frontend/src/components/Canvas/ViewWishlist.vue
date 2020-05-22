@@ -107,11 +107,15 @@ export default {
   },
 
   async beforeMount () {
-    this.user = getSavedState('user')
+    this.user = getSavedState('user');
 
-    let id = atob(this.$route.params.id)
+    let id = this.$route.params.id;
 
-    await this.fetchWishlist({ id: id })
+    if (this.isBase64(id)) {
+      id = atob(id);
+    }
+
+    await this.fetchWishlist({ id: id });
   },
 
   methods: {
@@ -121,7 +125,16 @@ export default {
     }),
 
     buy(id) {
-      this.buyWishlist({ id: id })
+      this.buyWishlist({ id: id });
+    },
+
+    isBase64(str) {
+      if (str === '' || str.trim() === ''){ return false; }
+      try {
+          return btoa(atob(str)) == str;
+      } catch (err) {
+          return false;
+      }
     }
   },
 
@@ -131,11 +144,11 @@ export default {
     }),
 
     wishlist_name () {
-      return get(this.wishlist, 'name', '')
+      return get(this.wishlist, 'name', '');
     },
 
     wishlist_items () {
-      return get(this.wishlist, 'wishlist_items', [])
+      return get(this.wishlist, 'wishlist_items', []);
     }
   }
 }

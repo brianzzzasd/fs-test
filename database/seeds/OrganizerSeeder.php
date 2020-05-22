@@ -14,7 +14,7 @@ class OrganizerSeeder extends Seeder
     {
         User::create([
         	'name'	   => 'Organizer',
-        	'email'    => 'test@test.com',
+        	'email'    => 'organizer@organizer.com',
         	'password' => bcrypt('123456'),
         	'role' => 2,
         ]);
