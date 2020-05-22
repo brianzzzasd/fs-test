@@ -13,7 +13,7 @@
                   Wishlist
                 </h2>
               </div>
-              <div class="mt-12">
+              <div class="mt-12" v-if="wishlist">
                 <div class="grid grid-cols-1 row-gap-6 sm:grid-cols-2 sm:col-gap-8">
                   <div class="sm:col-span-2">
                     <label for="wishlist_name" class="block text-base font-medium leading-5 text-gray-700">Wishlist Name</label>
@@ -98,12 +98,10 @@ export default {
     }
   },
 
-  async mounted () {
-    let id = this.$route.params.id
+  async beforeMount () {
+    let id = atob(this.$route.params.id)
 
     await this.fetchWishlist({ id: id })
-
-    console.log(this.wishlist)
   },
 
   methods: {

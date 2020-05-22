@@ -52,8 +52,11 @@ class WishlistController extends Controller
             $wishlist = Wishlist::create([
                 'name' => $wishlistData->wishlist_name,
                 'organizer_id' => auth('api')->id(),
-                'shareable_link' => 'testlink'
             ]); 
+
+            $wishlist->update([
+                'shareable_link' => $this->generateShareableLink($wishlist->id),
+            ]);
 
             $wishListItems = json_decode($wishlistData->wishlist_items, true);
 
@@ -62,6 +65,7 @@ class WishlistController extends Controller
             DB::commit();
             return response()->json([
                 'message' => 'Wishlist Created Successfully',
+                'link' => $wishlist->shareable_link,
             ], 201);
         } catch (\Exception $e) {
             DB::rollback();
@@ -140,10 +144,15 @@ class WishlistController extends Controller
     {
         $item = WishlistItems::whereId(request()->id)->get();   
         $resItem = new WishlistItemsResource($item);
-        dump($resItem);
+
         return new WishlistItemsResource($item);
     }
 
+    /**
+     * Update wishlist item
+     * 
+     * @return void
+     */ 
     public function updateItem()
     {
         $data = json_decode(request()->item);
@@ -165,5 +174,10 @@ class WishlistController extends Controller
             'image_url' => $img_url,
             'price' => $data->price
         ]));
+    }
+
+    public function generateShareableLink($id)
+    {
+        return env('FE_URL', 'http://127.0.0.1:8082') . '/wishlist/view/' . base64_encode($id);
     }
 }

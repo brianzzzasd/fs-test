@@ -4,12 +4,14 @@ export const state = {
   wishlists: null,
   wishlist: null,
   wishlist_item: null,
+  shareable_link: null,
 };
 
 export const getters = {
   wishlists: (state) => state.wishlists,
   wishlist: (state) => state.wishlist,
   wishlist_item: (state) => state.wishlist_item,
+  shareable_link: (state) => state.shareable_link,
 };
 
 export const mutations = {
@@ -23,7 +25,11 @@ export const mutations = {
 
   SET_WISHLIST_ITEM(state, wishlist_item) {
     state.wishlist_item = wishlist_item;
-  }
+  },
+
+  SET_SHAREABLE_LINK(state, shareable_link) {
+    state.shareable_link = shareable_link;
+  },
 };
 
 export const actions = {
@@ -35,8 +41,9 @@ export const actions = {
 
   async add({ commit }, params) {
     try {
-      await axios.post('wishlist', params)
-      commit();
+      const { data } = await axios.post('wishlist', params)
+
+      commit('SET_SHAREABLE_LINK', data.link);
     } catch (err) {
       return false;
     }

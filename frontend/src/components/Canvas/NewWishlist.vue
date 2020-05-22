@@ -21,6 +21,19 @@
                       <input v-model="wishlist_name" id="wishlist_name" class="form-input py-3 px-4 block w-full transition ease-in-out duration-150 border border-gray-300 rounded" />
                       <span class="text-red-600 text-sm" v-if="errors.wishlist_name">Wishlist Name is required</span>
                     </div>
+                    <modal name="link-modal">
+                      <div class="mt-4 relative rounded-md" v-if="link">
+                        <label for="link" class="block text-base font-medium leading-5 text-gray-700">Shareable Link</label>
+                        <div class="flex">
+                          <input id="link" class="form-input py-3 px-4 block w-full transition ease-in-out duration-150 border border-gray-300 rounded" disabled :value="link" ref="link"/>
+                          <button type="button" class="ml-5 inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-500 transition ease-in-out duration-150"
+                            v-clipboard:copy="link"
+                            v-clipboard:success="onCopy"
+                            v-clipboard:error="onError">Copy!
+                          </button>
+                        </div>
+                      </div>
+                    </modal>
                   </div>
                   <div class="sm:col-span-2">
                     <div class="border-b border-gray-500 pb-5 mt-5" v-for="(item, index) in items" :key="index">
@@ -76,7 +89,7 @@
 
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Header from '../Header';
 
 export default {
@@ -106,10 +119,24 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      link: 'wishlist/shareable_link'
+    }),
+  },
+  
   methods: {
     ...mapActions({
       addWishlist: 'wishlist/add',
     }),
+
+    onCopy() {
+      this.$toasted.success('Link Copied!')
+    },
+
+    onError() {
+      this.$toasted.error('Something went wrong!')
+    },
 
     onImageChange(e) {
       this.items[this.currentInputting].image = e.target.files[0]
@@ -117,7 +144,6 @@ export default {
 
     setCurrentInputing(index) {
       this.currentInputting = index
-      console.log(this.items)
     },
 
     addItem() {
@@ -154,6 +180,7 @@ export default {
 
         if (data) {
           this.$toasted.success('Wishlist Created Successfully!')
+          this.$modal.show('link-modal');
           this.clear()
         } else {
           this.$toasted.error('Something went wrong, please try again.')
