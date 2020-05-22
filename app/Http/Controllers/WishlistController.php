@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\WishlistItemsResource;
 use App\Http\Resources\WishlistsResource;
+use App\Mail\SendMailToBuyers;
 use App\Models\Wishlist;
 use App\Models\WishlistItems;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class WishlistController extends Controller
@@ -132,6 +134,15 @@ class WishlistController extends Controller
             'buyer_id' => auth('api')->id(),
         ]);
 
+        $data = [
+            'name'      => $item->name,
+            'link'      => $item->wishlist->shareable_link,
+            'price'     => $item->price,
+            'user_name' => auth('api')->user()->name,
+        ];
+
+        Mail::to(auth('api')->user()->email)->send(new SendMailToBuyers($data));
+        
         return new WishlistsResource($item->wishlist()->get());
     }
 

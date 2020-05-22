@@ -8,6 +8,13 @@
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div class="bg-white py-16 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
             <div class="relative max-w-3xl mx-auto">
+              <div class="mb-6">
+                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"
+                @click="$router.go(-1)"
+                >
+                  Back
+                </button>
+              </div>
               <div class="text-left">
                 <h2 class="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
                   Wishlist
