@@ -146,7 +146,9 @@ class WishlistController extends Controller
 
     public function updateItem()
     {
-        $item = WishlistItems::find(request()->id);   
+        $data = json_decode(request()->item);
+
+        $item = WishlistItems::find($data->id); 
 
         $img_url = '';
 
@@ -158,11 +160,10 @@ class WishlistController extends Controller
         }
 
         $item->update(array_filter([
-            'name' => $item['name'],
-            'wishlist_id' => $id,
-            'description' => $item['description'],
+            'name' => $data->name,
+            'description' => $data->description,
             'image_url' => $img_url,
-            'price' => $item['price']
+            'price' => $data->price
         ]));
     }
 }

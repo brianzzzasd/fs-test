@@ -8,6 +8,13 @@
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <div class="bg-white py-16 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
             <div class="relative max-w-3xl mx-auto">
+              <div class="mb-6">
+                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"
+                @click="$router.go(-1)"
+                >
+                  Back
+                </button>
+              </div>
               <div class="text-left">
                 <h2 class="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
                   Wishlist Item
@@ -39,6 +46,13 @@
                       <textarea v-model="item.description" id="item_description" rows="5" class="resize-none form-input py-3 px-4 block w-full transition ease-in-out duration-150 mt-4 border border-gray-300 rounded"></textarea>
                     </div>
                   </div>
+                  <div class="sm:col-span-2 mt-8">
+                    <span class="flex w-full justify-end">
+                      <button @click="updateItem()" type="button" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                        Update
+                      </button>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -64,11 +78,11 @@ export default {
       formData: '',
       currentInputting: 0,
       submittable: true,
+      image: '',
       item: {
         name: '',
         description: '',
         price: '',
-        image: '',
         errors: {
           name: false,
           price: false,
@@ -81,27 +95,41 @@ export default {
   },
 
   async beforeMount () {
-    let id = this.$route.params.id
+    let id = this.$route.params.id;
 
-    await this.fetchWishlistItem({ id: id })
+    await this.fetchWishlistItem({ id: id });
 
-    this.initItem()
-    
+    this.initItem();
   },
 
   methods: {
     ...mapActions({
       fetchWishlistItem: 'wishlistitems/fetch',
+      update: 'wishlistitems/update'
     }),
 
     onImageChange(e) {
-      this.item.image = e.target.files[0]
+      this.image = e.target.files[0];
+
     },
 
     initItem() {
       each(this.wishlistitem, (item, key) => {
-        this.item[key] = item
+        this.item[key] = item;
       })
+    },
+
+    updateItem() {
+      let data = new FormData();
+
+      data.append('item', JSON.stringify(this.item));
+      data.append('image', this.image);
+
+      if (this.update(data)) {
+        this.$toasted.success('Updated Successfully!');
+      } else {
+        this.$toasted.error('Something went wrong, please try again.')
+      }
     }
   },
 
