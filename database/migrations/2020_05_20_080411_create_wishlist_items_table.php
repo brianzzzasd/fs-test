@@ -19,6 +19,7 @@ class CreateWishlistItemsTable extends Migration
             $table->integer('wishlist_id');
             $table->string('description')->nullable();
             $table->double('price');
+            $table->integer('buyer_id')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamps();
         });

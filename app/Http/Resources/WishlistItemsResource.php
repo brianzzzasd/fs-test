@@ -24,6 +24,7 @@ class WishlistItemsResource extends JsonResource
                 'price'       => $item->price,
                 'description' => $item->description,
                 'image_url'   => $item->image_url,
+                'buyer_id'    => $item->buyer_id,
             );
         }
         

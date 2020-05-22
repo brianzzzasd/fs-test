@@ -1,14 +1,21 @@
 <template>
   <div class="min-h-screen bg-white flex">
     <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-      <div class="mb-2 font-extrabold text-4xl flex justify-center">
+      <div class="mb-2 font-bold text-4xl flex justify-center text-orange-500">
         Kadonation Test
       </div>
       <div class="mx-auto w-full max-w-sm">
         <div>
-          <h2 class="mt-6 text-3xl leading-9 font-bold text-gray-500">
-            Sign in to your account
+          <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+            Sign in to your <br> account
           </h2>
+
+          <p class="mt-2 text-center text-sm leading-5 text-gray-600 max-w">
+            Or
+            <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+              Sign up here
+            </a>
+          </p>
         </div>
 
         <div class="mt-8">

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <modal name="delete-modal" width="50%">
+      <modal name="delete-modal" width="500px">
         <div class="px-12 pt-4">
           <transition
             enter-active-class="ease-out duration-300"
@@ -75,7 +75,7 @@
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                 <router-link
-                  :to="`/wishlist/${wishlist.id}`"
+                  :to="`/wishlist/edit/${wishlist.id}`"
                 >
                   <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                 </router-link>
@@ -103,7 +103,7 @@
 
     methods: {
       ...mapActions({
-        fetchWishlists: 'wishlist/fetch',
+        fetchWishlists: 'wishlist/fetchAll',
         deleteWishlist: 'wishlist/delete',
       }),
 

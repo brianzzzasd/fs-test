@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -82,6 +82,11 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Override Default guard function
+     * 
+     * @return mixed
+     */
     public function guard()
     {
     	return auth()->guard('api');
