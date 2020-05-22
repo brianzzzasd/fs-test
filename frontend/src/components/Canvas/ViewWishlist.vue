@@ -51,7 +51,7 @@
                             </p>
                           </a>
                         </div>
-                        <div class="mt-6 flex items-center">
+                        <div class="mt-6 flex items-center" v-if="user.role == 1">
                           <div v-if="item.buyer_id" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white active:bg-gray-50 bg-gray-300">
                             Sold
                           </div>
@@ -78,6 +78,7 @@
 import Header from '../Header';
 import { mapActions, mapGetters } from 'vuex';
 import get from 'lodash/get';
+import { getSavedState } from '../../helpers/localStorage';
 
 export default {
   components: {
@@ -106,6 +107,8 @@ export default {
   },
 
   async beforeMount () {
+    this.user = getSavedState('user')
+
     let id = atob(this.$route.params.id)
 
     await this.fetchWishlist({ id: id })

@@ -5,7 +5,7 @@
       <header class="bg-white shadow">
       </header>
       <main>
-        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8" v-if="user.role == 2">
           <div class="bg-white py-16 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
             <div class="relative max-w-xl mx-auto">
               <div class="text-center">
@@ -22,7 +22,7 @@
                       <span class="text-red-600 text-sm" v-if="errors.wishlist_name">Wishlist Name is required</span>
                     </div>
                     <modal name="link-modal">
-                      <div class="mt-4 relative rounded-md" v-if="link">
+                      <div class="py-20 px-8 mt-5 relative rounded-md" v-if="link">
                         <label for="link" class="block text-base font-medium leading-5 text-gray-700">Shareable Link</label>
                         <div class="flex">
                           <input id="link" class="form-input py-3 px-4 block w-full transition ease-in-out duration-150 border border-gray-300 rounded" disabled :value="link" ref="link"/>
@@ -90,6 +90,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { getSavedState } from '../../helpers/localStorage';
 import Header from '../Header';
 
 export default {
@@ -97,6 +98,10 @@ export default {
     Header
   },
 
+  mounted() {
+    this.user = getSavedState('user')
+  },
+  
   data () {
     return {
       formData: '',
@@ -121,7 +126,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      link: 'wishlist/shareable_link'
+      link: 'wishlist/shareable_link',
     }),
   },
   

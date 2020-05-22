@@ -92,6 +92,7 @@
 <script>
   import { mapActions, mapGetters } from 'vuex'
   import Pagination from '../Pagination';
+  import { getSavedState } from '../../helpers/localStorage';
 
   export default {
     components: {
@@ -105,6 +106,7 @@
     },
 
     async mounted () {
+      this.user = getSavedState('user')
       await this.fetchWishlists()
     },
 
